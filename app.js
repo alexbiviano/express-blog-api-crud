@@ -10,7 +10,7 @@ const postsRouter = require('./routers/posts.js')
 app.use('/posts', postsRouter)
 
 // importo la cartella public, che contiene file statici
-app.use('/imgs', express.static('public/imgs'));
+app.use('/imgs', express.static('public/imgs'));  
 
 // definisco la rotta base 
 app.get('/', (req, res)=>{
