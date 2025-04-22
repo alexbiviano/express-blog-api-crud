@@ -1,36 +1,65 @@
 
-// Funzione per ottenere tutti i post  
-const getAllPosts = (req, res) => {  
-    res.send("Restituisci tutti i post");  
-};  
+// dati contenente l'array di oggetti
+const posts = require('../data/posts.js');
 
-const getPostById = (req, res) => {  
-    const postId = req.params.id;  
-    res.send(`Restituisci il post con ID: ${postId}`);  
-};  
+function index(req, res) {
+    res.json(posts);
+}
 
-//  crea 
-const createPost = (req, res) => {  
-    res.send("Crea un nuovo post");  
-};  
+function show(req, res) {
+    const post = posts.find(function (element) {
+        return element.id === parseInt(req.params.id);
+    });
 
-// aggiorna 
-const updatePost = (req, res) => {  
-    const postId = req.params.id;  
-    res.send(`Aggiorna il post con ID: ${postId}`);  
-};  
+    //controllo in caso di errore
+    if(post === undefined){
+        res.status(404);
+        return res.json({
+            status: 404,
+            error: "not found",
+            message: "Post non trovato"
+        })
+    }
 
-//  elimina
-const deletePost = (req, res) => {  
-    const postId = req.params.id;  
-    res.send(`Elimina il post con ID: ${postId}`);  
-};  
+    res.json(post);
+}
 
-// esporto le funzioni  
-module.exports = {  
-    getAllPosts,  
-    getPostById,  
-    createPost,  
-    updatePost,  
-    deletePost  
-};
+// creo
+function store(req, res) {
+    res.json('creo un nuovo elemento')
+}
+
+//modifico
+function update(req, res) {
+    res.json('modifico il post con id:' + req.params.id)
+}
+
+
+function modify(req, res) {
+    res.json('modifica parziale del post con id:' + req.params.id)
+}
+
+// elimino 
+function destroy(req, res) {
+    const id = parseInt(req.params.id)
+    const post = posts.find(function (element){
+        return element.id === id;
+    })
+
+// se il post non viene mostrato restituisco l'errore
+    if(post === undefined){
+        res.status(404);
+        return res.json({
+            status: 404,
+            error: "not found",
+            message: "Post non trovato"
+        })
+    }
+    posts.splice(posts.indexOf(post), 1);
+
+    res.sendStatus(204);
+    console.log(posts);  
+}
+
+// esporto le funzioni
+module.exports = { index, show, store, update, modify, destroy };
