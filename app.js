@@ -6,13 +6,14 @@ const app = express();
 const port = 3000;
 
 // importo router
-const postsRouter = require('./routers/posts.js')
+const postsRouter = require('./routers/routerPosts.js')
+app.use(express.json())
+
+
 app.use('/posts', postsRouter)
+app.use('/imgs', express.static('public/imgs'));
 
-// importo la cartella public, che contiene file statici
-app.use('/imgs', express.static('public/imgs'));  
 
-// definisco la rotta base 
 app.get('/', (req, res)=>{
     res.send('Homepage')
 })
