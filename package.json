@@ -7,6 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
+    "start": "node app.js",
+    "watch": "node --watch app.js",
     "type": "git",
     "url": "git+https://github.com/alexbiviano/express-blog-api-crud.git"
   },
