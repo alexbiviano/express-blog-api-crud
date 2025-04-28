@@ -1,24 +1,31 @@
-// importo express
-const express = require('express')
+//Importo express
+const express = require('express');
 const app = express();
 
-// definisco il numero di porta
+
+app.use(express.json());
+
+//Definisco la porta
 const port = 3000;
 
-// importo router
-const postsRouter = require('./routers/routerPosts.js')
-app.use(express.json())
+//Importo il router
+const postsRotta = require ('./router/postsRotta');
 
+//Importo middlewares
+const errorsHandler = require ('./middlewares/errorsHandler');
+const notFound = require ('./middlewares/notFound');
 
-app.use('/posts', postsRouter)
-app.use('/imgs', express.static('public/imgs'));
+app.use('/posts', postsRotta);
 
-
-app.get('/', (req, res)=>{
-    res.send('Homepage')
+//Definisco la mainpage
+app.get('/', (req,res) =>{
+    res.send('Mainpage')
 })
 
-// dico al server di rimanere in ascolto sulla porta 3000
+app.use(errorsHandler);
+app.use(notFound);
+
 app.listen(port,()=>{
-    console.log(port);
-});
+    console.log(`Il server è in ascolto sulla porta ${port}`)
+})
+
